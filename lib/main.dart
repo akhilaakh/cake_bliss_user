@@ -1,7 +1,9 @@
 import 'package:cake_bliss/Bloc/login/bloc.dart';
+import 'package:cake_bliss/Bloc/profile%20edit/bloc.dart';
 import 'package:cake_bliss/Bloc/profile/bloc.dart';
 import 'package:cake_bliss/Bloc/signup/bloc.dart';
 import 'package:cake_bliss/firebase_options.dart';
+import 'package:cake_bliss/screen/profile_edit.dart';
 import 'package:cake_bliss/splashscreen/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

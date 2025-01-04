@@ -46,4 +46,25 @@ class DatabaseService {
       return null;
     }
   }
+
+  Future<void> updateUserProfile(UserModel user) async {
+    try {
+      final querySnapshot = await _fire
+          .collection("users")
+          .where("email", isEqualTo: user.email)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final docId = querySnapshot.docs.first.id;
+        await _fire.collection("users").doc(docId).update({
+          "name": user.name,
+          "address": user.address,
+          "phone": user.phone,
+        });
+      }
+    } catch (e) {
+      log("Error updating user profile: ${e.toString()}");
+      throw Exception("Failed to update profile");
+    }
+  }
 }
