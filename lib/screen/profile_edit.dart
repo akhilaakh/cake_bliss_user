@@ -178,10 +178,14 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         backgroundColor: const Color(0xFF6F2E00),
-        title: const Text(
-          'Edit Profile',
-          style: TextStyle(color: Colors.white),
+        title: const Padding(
+          padding: EdgeInsets.all(70.0),
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -199,7 +203,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Profile updated successfully!')),
             );
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           }
           if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -217,6 +221,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(height: 130),
                   TextField(
                     controller: _nameController,
                     decoration: InputDecoration(
@@ -274,7 +279,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             );
                       }
                     },
-                    child: const Text('Save Changes'),
+                    child: const Text('Save'),
                   ),
                 ],
               ),

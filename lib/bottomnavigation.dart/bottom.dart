@@ -18,11 +18,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int currentIndex = 0;
 
   final List<Widget> _screens = [
-    HomePage(),
-    FavouritePage(),
-    Cart(),
-    Chat(),
-    Profile(),
+    const HomePage(),
+    const FavouritePage(),
+    const Cart(),
+    const Chat(),
+    const Profile(),
   ];
 
   // Method to show bottom sheet
@@ -33,7 +33,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         return Container(
           height: 200,
           color: Colors.white,
-          child: Center(
+          child: const Center(
             child: Text(
               'This is the bottom sheet!',
               style: TextStyle(fontSize: 24),
@@ -51,11 +51,29 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         index: currentIndex,
         height: 60.0,
         items: const <Widget>[
-          Icon(Icons.home, size: 30),
-          Icon(Icons.favorite, size: 30),
-          Icon(Icons.shopping_cart),
-          Icon(Icons.chat, size: 30),
-          Icon(Icons.person),
+          Icon(
+            Icons.home,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.favorite_border_outlined,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.shopping_cart,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.chat_bubble_outline_rounded,
+            size: 28,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
         ],
         color: const Color(0xFF6F2E00),
         buttonBackgroundColor: const Color(0xFF6F2E00),
