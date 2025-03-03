@@ -1,3 +1,4 @@
+import 'package:cake_bliss/constants/app_colors.dart';
 import 'package:cake_bliss/services/auth_service.dart';
 import 'package:cake_bliss/Login/loginpage.dart';
 import 'package:flutter/material.dart';
@@ -10,103 +11,122 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  final _auth = AuthService();
+  final AuthService _auth = AuthService();
   final TextEditingController _emailController = TextEditingController();
 
   @override
   void dispose() {
-    // Dispose controllers to avoid memory leaks
+    // Dispose of the email controller to avoid memory leaks
     _emailController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: Center(
-            child: SingleChildScrollView(
-                // Prevent overflow on smaller screens
-                child: Column(children: [
-          Image.asset(
-            'asset/image.png',
-            height: 200,
-          ),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ));
-            },
-            child: const Text(
-              'Forgot Password',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
-          const Text(
-            'Please sign in to your existing account',
-            style: TextStyle(fontWeight: FontWeight.w200),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  borderSide: BorderSide(
-                      color: Colors.transparent), // Optional: No visible border
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  borderSide: BorderSide(
-                    color: Color(0xFF6F2E00),
-                  ), // Border color when focused
-                ),
-                labelText: 'Email',
-                fillColor: Color.fromARGB(
-                    255, 245, 219, 199), // Adding the background color
-                filled: true,
+      appBar: AppBar(),
+      body: Center(
+        child: SingleChildScrollView(
+          // Prevent overflow on smaller screens
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Display an image at the top
+              Image.asset(
+                'asset/image.png',
+                height: 200,
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await _auth.sendPassWordResetLink(_emailController.text);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text(
-                      "an email for password  reset has been sent to your email")));
-              Navigator.pop(context);
+              const SizedBox(height: 8),
 
-              // Logic for normal login
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: const Color(0xFF6F2E00),
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 140),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              // Title with navigation to login page
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Forgot Password',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               ),
-              elevation: 5,
-              shadowColor: Colors.black.withOpacity(0.5),
-            ),
-            child: const Text(
-              'SEND CODE',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+              const Text(
+                'Please sign in to your existing account',
+                style: TextStyle(fontWeight: FontWeight.w200),
+              ),
+              const SizedBox(height: 20),
+
+              // Email input field
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                        color: Colors.transparent, // No visible border
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                        color:
+                            AppColors().mainColor, // Border color when focused
+                      ),
+                    ),
+                    labelText: 'Email',
+                    fillColor: AppColors().subcolor, // Background color
+                    filled: true,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Submit button for sending reset code
+              ElevatedButton(
+                onPressed: () async {
+                  await _auth.sendPassWordResetLink(_emailController.text);
+
+                  // Display confirmation message
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "An email for password reset has been sent to your email.",
+                      ),
+                    ),
+                  );
+
+                  // Navigate back to the previous screen
+                  if (mounted) Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors().mainColor,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 140,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 5,
+                  shadowColor: Colors.black.withOpacity(0.5),
+                ),
+                child: const Text(
+                  'SEND CODE',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
-        ]))));
+        ),
+      ),
+    );
   }
 }

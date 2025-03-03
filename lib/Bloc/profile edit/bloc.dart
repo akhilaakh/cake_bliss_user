@@ -1,39 +1,65 @@
+import 'package:cake_bliss/Bloc/profile/event.dart';
+import 'package:cake_bliss/Bloc/profile/state.dart';
+import 'package:cake_bliss/databaseServices/database_service.dart';
 import 'package:cake_bliss/model/user_model.dart';
-import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-abstract class ProfileEditState extends Equatable {
-  const ProfileEditState();
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+  final DatabaseService _dbService = DatabaseService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  @override
-  List<Object?> get props => [];
-}
+  ProfileBloc() : super(const ProfileInitial()) {
+    on<FetchProfileEvent>(_fetchProfile);
+    on<UpdateProfileEvent>(_updateProfile);
+  }
 
-class ProfileEditInitial extends ProfileEditState {
-  const ProfileEditInitial();
-}
+  // Fetch user profile
+  Future<void> _fetchProfile(
+      FetchProfileEvent event, Emitter<ProfileState> emit) async {
+    emit(const ProfileLoading());
+    try {
+      final currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(const ProfileError("No user logged in"));
+        return;
+      }
 
-class ProfileEditLoading extends ProfileEditState {
-  const ProfileEditLoading();
-}
+      final UserModel? userProfile =
+          await _dbService.getUserProfile(currentUser.uid);
 
-class ProfileEditLoaded extends ProfileEditState {
-  final UserModel user;
+      if (userProfile != null) {
+        print("Fetched Profile: ${userProfile.imageUrl}"); // Debugging
+        emit(ProfileLoaded(userProfile));
+      } else {
+        emit(const ProfileError("Profile not found"));
+      }
+    } catch (e) {
+      emit(ProfileError("Failed to fetch profile: ${e.toString()}"));
+    }
+  }
 
-  const ProfileEditLoaded(this.user);
+  // Update user profile
+  Future<void> _updateProfile(
+      UpdateProfileEvent event, Emitter<ProfileState> emit) async {
+    emit(const ProfileLoading());
+    try {
+      final currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(const ProfileError("No user logged in"));
+        return;
+      }
 
-  @override
-  List<Object> get props => [user];
-}
+      // Ensure image URL is updated
+      print("Updating Profile: ${event.user.imageUrl}"); // Debugging
+      await _dbService.updateUserProfile(event.user);
 
-class ProfileEditSuccess extends ProfileEditState {
-  const ProfileEditSuccess();
-}
+      emit(const ProfileUpdateSuccess());
 
-class ProfileEditError extends ProfileEditState {
-  final String message;
-
-  const ProfileEditError(this.message);
-
-  @override
-  List<Object> get props => [message];
+      // Fetch updated profile to reflect changes
+      add(FetchProfileEvent());
+    } catch (e) {
+      emit(ProfileError("Failed to update profile: ${e.toString()}"));
+    }
+  }
 }

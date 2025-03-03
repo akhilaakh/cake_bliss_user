@@ -28,6 +28,7 @@ class SignButtonClick extends SigninEvent {
   final String password;
   final String phone;
   final String address;
+  final String? imageUrl;
   final BuildContext context;
   SignButtonClick(
       {required this.name,
@@ -35,12 +36,13 @@ class SignButtonClick extends SigninEvent {
       required this.password,
       required this.phone,
       required this.address,
+      this.imageUrl,
       required this.context});
   List<Object> get props => [
         name,
         email,
         password,
         address,
-        context,
+        imageUrl ?? context,
       ];
 }

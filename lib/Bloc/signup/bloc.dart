@@ -41,12 +41,13 @@ class Signinbloc extends Bloc<SigninEvent, SigninState> {
 
       if (user != null) {
         DatabaseService().create(UserModel(
-          id: user.uid, // Use Firebase user's unique ID
-          name: event.name,
-          email: user.email ?? '',
-          phone: event.phone,
-          address: event.address,
-        ));
+            id: user.uid, // Use Firebase user's unique ID
+            name: event.name,
+            email: user.email ?? '',
+            phone: event.phone,
+            address: event.address,
+            password: event.password,
+            imageUrl: event.imageUrl ?? ''));
         log('Login successful');
         emit(SigninSuccess());
       } else {

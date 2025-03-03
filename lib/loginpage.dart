@@ -13,7 +13,7 @@
 //               height: 50,
 //             ),
 //             Image.asset(
-//               'asset/image.png',
+// //               'asset/image.png',
 //               height: 200,
 //             ),
 //             const SizedBox(height: 8),
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'LOGIN',
+                'LOGINN',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                           );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF6F2E00),
+                      primary: Color.fromARGB(255, 18, 16, 14),
                       onPrimary: Colors.white,
                       padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 150),

@@ -20,7 +20,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   final List<Widget> _screens = [
     const HomePage(),
     const FavouritePage(),
-    const Cart(),
+    const CartPage(),
     const Chat(),
     const Profile(),
   ];

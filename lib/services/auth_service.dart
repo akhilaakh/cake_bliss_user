@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:cake_bliss/Login/loginwithgoogle_profile.dart';
 import 'package:cake_bliss/bottomnavigation.dart/bottom.dart';
+import 'package:cake_bliss/screen/home_page.dart';
+import 'package:cake_bliss/screen/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -28,7 +31,7 @@ class AuthService {
           await _auth.signInWithCredential(credential);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomNavigationScreen()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
       return userCredential.user;
     } catch (e) {

@@ -1,10 +1,13 @@
+import 'package:cake_bliss/Bloc/image/bloc.dart';
 import 'package:cake_bliss/Bloc/login/bloc.dart';
-import 'package:cake_bliss/Bloc/profile%20edit/bloc.dart';
 import 'package:cake_bliss/Bloc/profile/bloc.dart';
 import 'package:cake_bliss/Bloc/signup/bloc.dart';
+import 'package:cake_bliss/checkout/checkout_cart.dart';
+import 'package:cake_bliss/customization/customization.dart';
 import 'package:cake_bliss/firebase_options.dart';
-import 'package:cake_bliss/screen/profile_edit.dart';
 import 'package:cake_bliss/splashscreen/splashscreen.dart';
+import 'package:cake_bliss/storage/services/storage_services.dart';
+import 'package:cake_bliss/types/type_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +33,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => Loginbloc()),
         BlocProvider(create: (context) => Signinbloc()),
         BlocProvider(create: (context) => ProfileBloc()),
+        BlocProvider(
+          create: (context) => StorageBloc(
+            storageService: StorageService(),
+          ),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -39,6 +47,14 @@ class MyApp extends StatelessWidget {
         ),
         home: const SplashScreen(title: 'Flutter Demo Home Page'),
         debugShowCheckedModeBanner: false,
+        routes: {
+          '/CheckoutPage': (context) => const CheckoutPage(),
+          // '/add-address': (context) => const AddAddressPage(), // If you have this page
+          // '/order-success': (context) => const OrderSuccessPage(), // If you have this page
+          '/customization': (context) =>
+              const CustomizationPage(), // If you have this page
+          // Add other routes as needed
+        },
       ),
     );
   }

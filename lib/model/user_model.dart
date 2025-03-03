@@ -5,15 +5,16 @@ class UserModel {
   final String phone;
   final String address;
   final String? imageUrl;
+  final String? password;
 
-  UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.address,
-    this.imageUrl,
-  });
+  UserModel(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.phone,
+      required this.address,
+      this.imageUrl,
+      required this.password});
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,6 +24,7 @@ class UserModel {
       'phone': phone,
       'address': address,
       'imageUrl': imageUrl,
+      'password': password,
     };
   }
 
@@ -34,19 +36,21 @@ class UserModel {
       phone: map['phone'] ?? '',
       address: map['address'] ?? '',
       imageUrl: map['imageUrl'],
+      password: map['password'] ?? '',
     );
   }
 
   // Add the copyWith method
-  UserModel copyWith({
-    String? id,
-    String? name,
-    String? email,
-    String? phone,
-    String? address,
-    String? imageUrl,
-  }) {
+  UserModel copyWith(
+      {String? id,
+      String? name,
+      String? email,
+      String? phone,
+      String? address,
+      String? imageUrl,
+      String? password}) {
     return UserModel(
+      password: password ?? this.password,
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
